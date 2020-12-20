@@ -1,0 +1,7 @@
+{   
+    // 移除分号， 注意：开发中不能有注释，这是JSON格式的文件
+    "semi":false,
+
+    // 单引号表示字符串
+    "singleQuote":true
+}

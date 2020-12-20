@@ -1,0 +1,27 @@
+/* 全局样式表 */
+html,body,#app{
+    height:100%;
+    margin:0;
+    padding:0;
+}
+
+/* 覆盖默认样式，尽量写在全局样式中 */
+.el-breadcrumb{
+    margin-bottom: 15px;
+    font-size: 12px;
+}
+
+/* 重置卡片视图的阴影，默认的卡片样式优先级比较高，所以加了 !important */
+.el-card{
+    box-shadow:0 1px 1px rgba(0,0,0,0.15) !important;
+}
+
+/* 设置表格和上方card卡片的间距 */
+.el-table{
+    margin-top: 15px;
+}
+
+/* 分页条和上方表格加一条间隙 */
+.el-pagination{
+    margin-top: 10px;
+}
