@@ -13,12 +13,15 @@ import { Button, Form, FormItem, Input, Message, Container, Header, Aside, Main,
     Switch,
     Tooltip,
     Pagination,
-    Dialog
+    Dialog,
+    MessageBox
 
 } from 'element-ui'
 
 // message组件比较特别，需要挂载到Vue的原型对象中
 Vue.prototype.$message = Message
+// MessageBox组件也需要挂载到Vue原型对象中
+Vue.prototype.$confirm = MessageBox.confirm
 
 Vue.use(Button)
 Vue.use(Form)
