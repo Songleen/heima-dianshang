@@ -3,6 +3,7 @@ html,body,#app{
     height:100%;
     margin:0;
     padding:0;
+    min-width: 1366px;
 }
 
 /* 覆盖默认样式，尽量写在全局样式中 */

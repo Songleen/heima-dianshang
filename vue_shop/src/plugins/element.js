@@ -15,7 +15,8 @@ import { Button, Form, FormItem, Input, Message, Container, Header, Aside, Main,
     Pagination,
     Dialog,
     MessageBox,
-    Tag    
+    Tag,
+    Tree    
 
 } from 'element-ui'
 
@@ -49,4 +50,5 @@ Vue.use(Tooltip)
 Vue.use(Pagination)
 Vue.use(Dialog)
 Vue.use(Tag)
+Vue.use(Tree)
 
