@@ -7,6 +7,10 @@ import './assets/css/global.css'
 // 导入字体图标
 import './assets/fonts/iconfont.css'
 
+// 导入第三方的树形列表
+import TreeTable from 'vue-table-with-tree-grid'
+
+
 // 引入该模块
 import axios from 'axios'
 
@@ -24,7 +28,8 @@ Vue.prototype.$http = axios
 // 配置请求的根路径
 axios.defaults.baseURL = 'http://localhost:8888/api/private/v1'
 
-
+// 注册树形列表组件
+Vue.component('tree-table',TreeTable)
 
 Vue.config.productionTip = false
 

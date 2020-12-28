@@ -16,7 +16,13 @@ import { Button, Form, FormItem, Input, Message, Container, Header, Aside, Main,
     Dialog,
     MessageBox,
     Tag,
-    Tree    
+    Tree,
+    Select,
+    Option,
+    Cascader,
+    Alert,
+    Tabs,
+    TabPane    
 
 } from 'element-ui'
 
@@ -51,4 +57,10 @@ Vue.use(Pagination)
 Vue.use(Dialog)
 Vue.use(Tag)
 Vue.use(Tree)
+Vue.use(Select)
+Vue.use(Option)
+Vue.use(Cascader)
+Vue.use(Alert)
+Vue.use(Tabs)
+Vue.use(TabPane)
 

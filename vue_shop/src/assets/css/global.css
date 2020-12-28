@@ -26,3 +26,13 @@ html,body,#app{
 .el-pagination{
     margin-top: 10px;
 }
+
+/* 级联样式的高度显示 */
+/* .el-cascader-panel{ 
+    height: 200px; 
+} */
+
+/* 隐藏横向滚动条 */
+/* .el-scrollbar__wrap{
+    overflow-x: hidden;
+} */
