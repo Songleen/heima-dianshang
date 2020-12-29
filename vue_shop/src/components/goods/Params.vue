@@ -46,7 +46,34 @@
           >
           <!-- 动态参数的表格 -->
           <el-table :data="manyTableData" stripe border style="width: 100%">
-            <el-table-column type="expand"></el-table-column>
+            <el-table-column type="expand">
+              <template slot-scope="scope">
+                <!-- 循环渲染tag标签 -->
+                <el-tag
+                  v-for="(item, i) in scope.row.attr_vals"
+                  :key="i"
+                  closable
+                  @close="handleClose(i, scope.row)"
+                >
+                  {{ item }}
+                </el-tag>
+                <!-- 输入的文本框 -->
+                <el-input
+                  class="input-new-tag"
+                  v-if="scope.row.inputVisible"
+                  v-model="scope.row.inputValue"
+                  ref="saveTagInput"
+                  size="small"
+                  @keyup.enter.native="handleInputConfirm(scope.row)"
+                  @blur="handleInputConfirm(scope.row)"
+                >
+                </el-input>
+                <!-- 添加按钮 -->
+                <el-button v-else size="small" @click="showInput(scope.row)"
+                  >+ New Tag</el-button
+                >
+              </template>
+            </el-table-column>
             <el-table-column type="index"></el-table-column>
             <el-table-column
               prop="attr_name"
@@ -84,7 +111,34 @@
           >
           <!-- 静态属性的表格 -->
           <el-table :data="onlyTableData" stripe border style="width: 100%">
-            <el-table-column type="expand"></el-table-column>
+            <el-table-column type="expand">
+              <template slot-scope="scope">
+                <!-- 循环渲染tag标签 -->
+                <el-tag
+                  v-for="(item, i) in scope.row.attr_vals"
+                  :key="i"
+                  closable
+                  @close="handleClose(i, scope.row)"
+                >
+                  {{ item }}
+                </el-tag>
+                <!-- 输入的文本框 -->
+                <el-input
+                  class="input-new-tag"
+                  v-if="scope.row.inputVisible"
+                  v-model="scope.row.inputValue"
+                  ref="saveTagInput"
+                  size="small"
+                  @keyup.enter.native="handleInputConfirm(scope.row)"
+                  @blur="handleInputConfirm(scope.row)"
+                >
+                </el-input>
+                <!-- 添加按钮 -->
+                <el-button v-else size="small" @click="showInput(scope.row)"
+                  >+ New Tag</el-button
+                >
+              </template>
+            </el-table-column>
             <el-table-column type="index"></el-table-column>
             <el-table-column
               prop="attr_name"
@@ -220,15 +274,19 @@ export default {
     },
     // 级联选择框选中项变化，会触发这个函数，
     handleChange() {
-      if (this.selectedKeys.length !== 0) {
-        this.getParamsData();
+      if (this.selectedKeys.length !== 3) {
+        this.selectedKeys = [];
+        this.manyTableData = [];
+        this.onlyTableData = [];
+        return;
       }
+      this.getParamsData();
     },
     // 页签的单击事件的处理函数
     handleTabClick() {
       // 这里其实是先改变了activeName的值，再调用的这个函数
       if (this.selectedKeys.length === 0) {
-        return this.$message.error("请选择商品分类！");
+        return;
       }
       this.getParamsData();
     },
@@ -243,7 +301,12 @@ export default {
       if (res.meta.status !== 200) {
         return this.$message.error(res.meta.msg);
       }
-
+      res.data.forEach((item) => {
+        item.attr_vals = item.attr_vals ? item.attr_vals.split(" ") : [];
+        // 添加一个控制输入框显示的布尔值，和一个双向数据绑定的变量
+        item.inputVisible = false;
+        item.inputValue = "";
+      });
       if (this.activeName === "many") {
         this.manyTableData = res.data;
       } else {
@@ -348,7 +411,52 @@ export default {
           });
         });
     },
+    // 标签中的输入框的键盘抬起和失去焦点触发的事件
+    async handleInputConfirm(row) {
+      if (row.inputValue.trim().length === 0) {
+        row.inputValue = "";
+        row.inputVisible = false;
+        return;
+      }
+      // 输入的值有效，需要进一步处理
+      row.attr_vals.push(row.inputValue);
+      row.inputValue = "";
+      row.inputVisible = false;
+      this.saveAttrVals(row);
+    },
+    // 将对attr_vals的操作保存到数据库
+    async saveAttrVals(row) {
+      // 需要发送请求，保存这次操作
+      const { data: res } = await this.$http.put(
+        `categories/${this.cateId}/attributes/${row.attr_id}`,
+        {
+          attr_name: row.attr_name,
+          attr_sel: row.attr_sel,
+          attr_vals: row.attr_vals.join(" "),
+        }
+      );
+      if (res.meta.status !== 200) {
+        return this.$message.error("修改参数项失败！");
+      }
+      this.$message.success("修改参数项成功！");
+    },
+    // 标签中的按钮单击触发事件，显示输入框
+    showInput(row) {
+      row.inputVisible = true;
+      // $nextTick函数的作用：当页面上的元素被重新渲染之后，才会执行回调函数中的代码，
+      // 就是为了让页面上的元素渲染出来之后，再执行获取焦点的操作
+      this.$nextTick((_) => {
+        // 让文本框自动获取焦点
+        this.$refs.saveTagInput.$refs.input.focus();
+      });
+    },
+    // 删除对应的参数选项
+    handleClose(i, row) {
+      row.attr_vals.splice(i, 1);
+      this.saveAttrVals(row);
+    },
   },
+
   computed: {
     // 如果按钮需要被禁用，返回true，否则返回false
     isBtnDisabled() {
@@ -381,5 +489,11 @@ export default {
 }
 .el-cascader {
   margin-left: 15px;
+}
+.el-tag {
+  margin: 0 5px;
+}
+.input-new-tag {
+  width: 100px;
 }
 </style>
