@@ -36,3 +36,8 @@ html,body,#app{
 /* .el-scrollbar__wrap{
     overflow-x: hidden;
 } */
+
+/* 设置富文本编辑器编辑区的最小高度 */
+.ql-editor{
+    min-height:300px;
+}

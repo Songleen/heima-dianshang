@@ -9,6 +9,18 @@ import './assets/fonts/iconfont.css'
 
 // 导入第三方的树形列表
 import TreeTable from 'vue-table-with-tree-grid'
+// 导入时间处理包moment
+import Moment from 'moment'
+
+// 导入富文本编辑器，包括它的样式
+import VueQuillEditor from 'vue-quill-editor'
+
+import 'quill/dist/quill.core.css' // import styles
+import 'quill/dist/quill.snow.css' // for snow theme
+import 'quill/dist/quill.bubble.css' // for bubble theme
+
+// 全局注册
+Vue.use(VueQuillEditor)
 
 
 // 引入该模块
@@ -30,6 +42,10 @@ axios.defaults.baseURL = 'http://localhost:8888/api/private/v1'
 
 // 注册树形列表组件
 Vue.component('tree-table',TreeTable)
+// 自定义全局moment过滤器
+Vue.filter('converTime',function(data){
+  return Moment(data).format("YYYY-MM-DD HH:mm:ss")
+})
 
 Vue.config.productionTip = false
 

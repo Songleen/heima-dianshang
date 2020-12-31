@@ -7,9 +7,16 @@ import Users from '../components/user/Users.vue'
 import Rights from '../components/power/Rights.vue'
 import Roles from '../components/power/Roles.vue'
 import Cate from '../components/goods/Cate.vue'
-import Params from '../components/goods/Params'
+import Params from '../components/goods/Params.vue'
+import List from '../components/goods/List.vue'
+import AddGoods from '../components/goods/AddGoods.vue'
 
 Vue.use(VueRouter)
+
+// const routerPush = VueRouter.prototype.push
+// VueRouter.prototype.push = function push(location) {
+//   return routerPush.call(this, location).catch(error => error)
+// }
 
 const router = new VueRouter({
   routes: [
@@ -25,7 +32,9 @@ const router = new VueRouter({
         { path: '/rights', component: Rights },
         { path: '/roles', component: Roles },
         { path: '/categories', component: Cate },
-        { path: '/params', component: Params }
+        { path: '/params', component: Params },
+        { path: '/goods', component: List },
+        { path: '/add', component: AddGoods }
       ]
     }
   ]
