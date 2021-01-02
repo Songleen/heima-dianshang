@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import './plugins/element.js'
+
 // 导入全局样式表
 import './assets/css/global.css'
 // 导入字体图标
@@ -22,6 +23,9 @@ import 'quill/dist/quill.bubble.css' // for bubble theme
 // 全局注册
 Vue.use(VueQuillEditor)
 
+// 导入nprogress以及它的样式
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 // 引入该模块
 import axios from 'axios'
@@ -29,8 +33,20 @@ import axios from 'axios'
 // 设置axios拦截器,进行请求拦截，.request就是一个请求拦截器，这样只要通过axios向服务器
 // 发送请求，在请求发送前，必然会调用use这个回调函数
 axios.interceptors.request.use(config=>{
+
+  // 在request拦截器中，展示进度条
+  NProgress.start()
+
   // 为请求头对象添加token验证的Authorization字段
   config.headers.Authorization = window.sessionStorage.getItem('token')
+  return config
+})
+
+// 在response拦截器中，隐藏进度条
+axios.interceptors.response.use(config=>{
+  // 在request拦截器中，展示进度条
+  NProgress.done()
+  
   return config
 })
 
