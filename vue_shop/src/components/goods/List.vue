@@ -163,7 +163,7 @@ export default {
     },
     // 跳转到添加商品的组件
     goAddPage(){
-        this.$router.push('/add')
+        this.$router.push('abc/add')
     }
   },
 };

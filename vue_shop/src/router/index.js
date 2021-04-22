@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Router from 'vue-router'
 
 
 // 将Login,Home,Welcome三个组件弄成一组，组名为login_home_welcome
@@ -16,19 +16,21 @@ import Rights from '../components/power/Rights.vue'
 import Roles from '../components/power/Roles.vue'
 import Cate from '../components/goods/Cate.vue'
 import Params from '../components/goods/Params.vue'
-import List from '../components/goods/List.vue'
-import AddGoods from '../components/goods/AddGoods.vue'
+import GoodsList from '../components/goods/List.vue'
+import Add from '../components/goods/AddGoods.vue'
 import Order from '../components/order/Order.vue'
 import Report from '../components/report/Report.vue'
 
-Vue.use(VueRouter)
+import Hello from '../components/test/Hello.vue'
+
+Vue.use(Router)
 
 // const routerPush = VueRouter.prototype.push
 // VueRouter.prototype.push = function push(location) {
 //   return routerPush.call(this, location).catch(error => error)
 // }
 
-const router = new VueRouter({
+const router = new Router({
   routes: [
     { path: '/', redirect: '/login' },
     { path: '/login', component: Login },
@@ -43,10 +45,14 @@ const router = new VueRouter({
         { path: '/roles', component: Roles },
         { path: '/categories', component: Cate },
         { path: '/params', component: Params },
-        { path: '/goods', component: List },
-        { path: '/add', component: AddGoods },
+        { path: '/goods', component: GoodsList },
+        { path: '/abc/add', component: Add },
         { path: '/orders', component: Order },
-        { path: '/reports', component: Report }
+        { path: '/reports', component: Report },
+
+        { path: '/helloword/:name/:age', name: 'Hello', component: Hello },
+
+        { path: '/second', name: 'Second', component: () => import('@/components/test/Second') }
       ]
     }
   ]
