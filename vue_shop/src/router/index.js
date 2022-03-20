@@ -50,9 +50,9 @@ const router = new Router({
         { path: '/orders', component: Order },
         { path: '/reports', component: Report },
 
-        { path: '/helloword/:name/:age', name: 'Hello', component: Hello },
+        // { path: '/helloword/:name/:age', name: 'Hello', component: Hello },
 
-        { path: '/second', name: 'Second', component: () => import('@/components/test/Second') }
+        // { path: '/second', name: 'Second', component: () => import('@/components/test/Second') }
       ]
     }
   ]
